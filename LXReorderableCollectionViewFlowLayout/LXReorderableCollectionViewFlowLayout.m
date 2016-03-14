@@ -461,6 +461,29 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
             case UICollectionElementCategoryCell: {
                 [self applyLayoutAttributes:layoutAttributes];
             } break;
+            case UICollectionElementCategorySupplementaryView:
+            {
+                int originX = 0;
+                int width = 0;
+                for(int section = 0 ; section < layoutAttributes.indexPath.section+1 ; section ++)
+                {
+                    for(int row = 0 ; row < [self.collectionView numberOfItemsInSection:section]; row++)
+                    {
+                        CGSize cellSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
+                        if(section < layoutAttributes.indexPath.section)
+                        { // Origin is sum of width of previous section
+                            originX += cellSize.width+1;
+                        }
+                        else
+                        { // Width is sum of width of current section
+                            width += cellSize.width;
+                        }
+                    }
+                }
+                
+                layoutAttributes.frame = CGRectMake(originX, 0, width, self.headerReferenceSize.height);
+                break;
+            }
             default: {
                 // Do nothing...
             } break;
