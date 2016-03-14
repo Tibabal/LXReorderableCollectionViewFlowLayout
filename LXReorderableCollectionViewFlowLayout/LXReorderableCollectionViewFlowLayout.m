@@ -472,7 +472,7 @@ static NSString * const kLXCollectionViewKeyPath = @"collectionView";
                         CGSize cellSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:[NSIndexPath indexPathForRow:row inSection:section]];
                         if(section < layoutAttributes.indexPath.section)
                         { // Origin is sum of width of previous section
-                            originX += cellSize.width+1;
+                            originX += cellSize.width;
                         }
                         else
                         { // Width is sum of width of current section
